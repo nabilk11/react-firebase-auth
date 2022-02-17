@@ -14,6 +14,8 @@ export function useAuth() {
 export function AuthProvider({children}) {
     // state hook for the current user
 const [currentUser, setCurrentUser] = useState()
+// loading state for firebase auth token
+const [loading, setLoading] = useState(true)
 
 // signup function
 const signup = (email, password) => {
@@ -24,6 +26,9 @@ useEffect(() => {
 // setting current user within useEffect so it runs on render
 const unsubscribe = auth.onAuthStateChanged(user => {
     setCurrentUser(user)
+    // need to set loading state to refresh firebase token
+    setLoading(false)
+    
 })
 return unsubscribe
 }, [])
@@ -33,12 +38,14 @@ return unsubscribe
     const value = {
         currentUser,
         signup,
-        
+
     }
   return (
         <AuthContext.Provider value={value}>
-            {children}
+            
+            {!loading && children} 
         </AuthContext.Provider>
         
   )
 }
+// {!loading && children} - this check ensures that we do not load any of our other application until the loading state is set
