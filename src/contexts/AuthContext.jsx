@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 // create AuthContext, with createContext to be used within the Provider
 
@@ -18,7 +18,7 @@ const [currentUser, setCurrentUser] = useState()
 const [loading, setLoading] = useState(true)
 
 
-/*********LOGIN & SIGNUP FUNCTIONS w/FIREBASE *********/
+/*********LOGIN, LOGOUT, & SIGNUP FUNCTIONS w/FIREBASE *********/
 // APP CAN BE USED WITHOUT FIREBASE IF THESE FUNCTIONS ARE CHANGED
 // signup function - from firebase
 const signup = (email, password) => {
@@ -29,7 +29,10 @@ return createUserWithEmailAndPassword(auth, email, password)
 const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password)
 }
-
+// logout function - from firebase
+const logout = () => {
+    return signOut(auth)
+}
 
 useEffect(() => {
 // setting current user within useEffect so it runs on render
@@ -48,7 +51,7 @@ return unsubscribe
         currentUser,
         signup,
         login,
-
+        logout,
     }
   return (
         <AuthContext.Provider value={value}>
