@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
@@ -13,6 +13,8 @@ export default function Login() {
 // loading state
 const [loading, setLoading] = useState(false);
 
+// navigate = useNavigate - for login redirect
+const navigate = useNavigate();
 
 // handleSubmit function
 const handleSubmit = async (e) => {
@@ -23,6 +25,7 @@ try {
     setError('')
     setLoading(true)
    await login(emailRef.current.value, passwordRef.current.value)
+   navigate('/')
 
 } catch {
     setError('Login Failed! Something went wrong...')
