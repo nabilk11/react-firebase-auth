@@ -17,10 +17,19 @@ const [currentUser, setCurrentUser] = useState()
 // loading state for firebase auth token
 const [loading, setLoading] = useState(true)
 
-// signup function
+
+/*********LOGIN & SIGNUP FUNCTIONS w/FIREBASE *********/
+// APP CAN BE USED WITHOUT FIREBASE IF THESE FUNCTIONS ARE CHANGED
+// signup function - from firebase
 const signup = (email, password) => {
 return createUserWithEmailAndPassword(auth, email, password)
 }
+
+// login function - from firebase
+const login = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password)
+}
+
 
 useEffect(() => {
 // setting current user within useEffect so it runs on render
@@ -38,6 +47,7 @@ return unsubscribe
     const value = {
         currentUser,
         signup,
+        login,
 
     }
   return (
