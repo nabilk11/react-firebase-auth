@@ -16,8 +16,8 @@ export default function Dashboard() {
     const handleLogout = async () => {
         setError('')
         try {
-            await logout()
-            navigate('/login')
+             logout()
+             navigate('/')
             
         } catch (error) {
             setError('Logout has Failed!')

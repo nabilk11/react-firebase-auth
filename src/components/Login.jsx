@@ -25,7 +25,7 @@ try {
     setError('')
     setLoading(true)
    await login(emailRef.current.value, passwordRef.current.value)
-   navigate('/')
+   navigate('/dashboard')
 
 } catch {
     setError('Login Failed! Something went wrong...')
