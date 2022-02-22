@@ -1,19 +1,19 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function ForgotPassword() {
     const emailRef = useRef();
 // pulling signup function from useAuth
-    const { login } = useAuth();
+    const { resetPassword } = useAuth();
 // error state
     const [error, setError] = useState('');
 // loading state
 const [loading, setLoading] = useState(false);
+// message state 
+const [message, setMessage] = useState('')
 
-// navigate = useNavigate - for login redirect
-const navigate = useNavigate();
 
 // handleSubmit function
 const handleSubmit = async (e) => {
@@ -23,11 +23,11 @@ e.preventDefault()
 try {
     setError('')
     setLoading(true)
-  // await login(emailRef.current.value, passwordRef.current.value)
-   navigate('/dashboard')
+   await resetPassword(emailRef.current.value)
+   setMessage('Email Sent! Check Your Inbox for Instructions.')
 
 } catch {
-    setError('Login Failed! Something went wrong...')
+    setError('Failed to Reset Password')
 }
 setLoading(false)
 }
@@ -38,6 +38,7 @@ setLoading(false)
             <Card.Body>
                 <h2 className="text-center mb-4">Reset Password</h2>
                 {error && <Alert variant="danger">{error}</Alert> }
+                {message && <Alert variant='success'>{message}</Alert> }
                 <Form onSubmit={handleSubmit} >
                     <Form.Group id='email'>
                         <Form.Label>Email</Form.Label>

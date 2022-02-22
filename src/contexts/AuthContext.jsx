@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 // create AuthContext, with createContext to be used within the Provider
 
@@ -34,6 +34,12 @@ const logout = () => {
     return signOut(auth)
 }
 
+// FORGOT PASSWORD RESET
+const resetPassword = (email) => {
+return sendPasswordResetEmail(auth, email)
+}
+
+
 useEffect(() => {
 // setting current user within useEffect so it runs on render
 const unsubscribe = auth.onAuthStateChanged(user => {
@@ -52,6 +58,7 @@ return unsubscribe
         signup,
         login,
         logout,
+        resetPassword,
     }
   return (
         <AuthContext.Provider value={value}>
