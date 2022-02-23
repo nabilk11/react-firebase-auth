@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword } from "firebase/auth";
 
 // create AuthContext, with createContext to be used within the Provider
 
@@ -18,7 +18,7 @@ const [currentUser, setCurrentUser] = useState()
 const [loading, setLoading] = useState(true)
 
 
-/*********LOGIN, LOGOUT, & SIGNUP FUNCTIONS w/FIREBASE *********/
+/*********LOGIN, LOGOUT, RESET PASSWORD & SIGNUP FUNCTIONS w/FIREBASE *********/
 // APP CAN BE USED WITHOUT FIREBASE IF THESE FUNCTIONS ARE CHANGED
 // signup function - from firebase
 const signup = (email, password) => {
@@ -38,6 +38,19 @@ const logout = () => {
 const resetPassword = (email) => {
 return sendPasswordResetEmail(auth, email)
 }
+
+/********* UPDATE PROFILE INFO *********/
+function updateEmail (email) {
+return currentUser.updateEmail(email)
+}
+
+function updatePassword (password) {
+    return currentUser.updatePassword(password)
+
+
+}
+
+
 
 
 useEffect(() => {
@@ -59,6 +72,8 @@ return unsubscribe
         login,
         logout,
         resetPassword,
+        updateEmail,
+        updatePassword,
     }
   return (
         <AuthContext.Provider value={value}>
